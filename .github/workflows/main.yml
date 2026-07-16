@@ -2,7 +2,7 @@ name: Daily LinkedIn Post
 
 on:
   schedule:
-    - cron: '4 13 * * *'   # 18:04 PKT (UTC+5)
+    - cron: '0 9 * * *'   # 14:00 PKT (UTC+5)
   workflow_dispatch: {}
 
 jobs:
