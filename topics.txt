@@ -1,0 +1,30 @@
+LangChain Prompt Templates
+LangChain Chains vs LCEL
+LangChain Memory Basics
+LangChain Output Parsers
+Building Your First LangChain Agent
+LangChain Tools Overview
+Custom Tools in LangChain
+Intro to LangGraph
+LangGraph StateGraph Basics
+LangGraph Nodes and Edges
+Conditional Edges in LangGraph
+Multi-Agent Systems with LangGraph
+LangGraph Checkpoints and Persistence
+Human-in-the-Loop with LangGraph
+LangGraph vs LangChain Agents
+Building a RAG Pipeline
+Vector Stores in LangChain
+Embeddings Explained
+LangChain Document Loaders
+Text Splitters in LangChain
+LangSmith for Debugging
+Evaluating LLM Outputs
+Streaming Responses in LangChain
+Error Handling in Agentic Workflows
+Deploying LangGraph Apps
+LangChain with FastAPI
+MCP (Model Context Protocol) Basics
+Connecting MCP Tools to Agents
+Building a Multi-Step Agent Pipeline
+30-Day Recap: Key Learnings
