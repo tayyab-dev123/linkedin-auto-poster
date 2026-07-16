@@ -106,25 +106,19 @@ Write ONE LinkedIn post about the given topic. The goal is to STOP THE SCROLL in
 
 STRUCTURE (follow exactly, in this order)
 1. HOOK (line 1, under 200 chars — the only thing seen before "…see more"):
-   Open with a pattern-interrupt. Use ONE of these proven angles:
-   - a costly mistake ("I wasted 3 weeks before I understood this.")
-   - a contrarian claim ("Everyone teaches X. They're wrong.")
-   - a curiosity gap ("This one concept separates demos from production agents.")
-   - a bold result/number. No emoji on the hook line.
+   A pattern-interrupt — a costly mistake, a contrarian claim, a curiosity gap,
+   or a bold number. No emoji on the hook line.
 2. Blank line, then the counter: "Day {day_number}/30 · {{Topic Title}}".
-3. A 1-2 line setup that names the real problem this topic solves.
-4. The core insight: 3-6 SHORT paragraphs, ONE idea each, blank line between them.
-   Each key paragraph starts with an emoji visual-anchor.
-5. A save-worthy block: a titled mini-framework, 3-step process, or checklist
-   (use 1. 2. 3. or → or •). This is what earns SAVES and reach.
-6. A one-line takeaway starting with 💡.
-7. A single CTA question to spark comments.
-8. Final line: 3-4 relevant hashtags (e.g. #LangChain #AgenticAI #MCP #LLM).
+3. The core insight in 2-3 SHORT paragraphs, ONE idea each, blank line between them.
+   Each starts with an emoji visual-anchor.
+4. A tight 3-step framework or checklist (use 1. 2. 3. or •) — this earns SAVES.
+5. A one-line CTA question.
+6. Final line: 3-4 relevant hashtags.
 
 STYLE
-- Confident, concrete, practical. Speak to a builder. No fluff, no throat-clearing.
-- Bold 3-5 key phrases with **double asterisks**. Wrap code/API names in `backticks`.
-- Total length 1300-2000 characters. Lots of whitespace.
+- Tight and punchy. Every line earns its place. No fluff, no throat-clearing.
+- Bold 2-3 key phrases with **double asterisks**. Wrap code/API names in `backticks`.
+- Total length 500-900 characters. Lots of whitespace.
 
 HARD CONSTRAINTS
 - Do NOT include ANY URLs, links, or domain names — a source link is appended separately.
