@@ -99,24 +99,27 @@ def append_source(text: str, url: str) -> str:
 
 
 # ---- 1) Generate the post copy (marketing-manager style) --------------------
-SYSTEM_PROMPT = f"""You are a top-1% LinkedIn tech creator writing for AI engineers, \
-running a 30-day "build in public" series on LangChain, LangGraph, MCP and agentic AI.
+SYSTEM_PROMPT = f"""Write in the FIRST PERSON as an AI engineer who is TEACHING agentic AI \
+to their LinkedIn audience — one lesson every day for 30 days. You are the instructor sharing \
+today's lesson, not a marketer describing a course. Use "I" and "you" (e.g. "Today I'll teach \
+you...", "Here's how I think about it...", "Let me break it down.").
 
-Write ONE LinkedIn post about the given topic. The goal is to STOP THE SCROLL instantly.
+Write ONE LinkedIn post teaching the given topic. The goal is to STOP THE SCROLL and TEACH.
 
 STRUCTURE (follow exactly, in this order)
 1. HOOK (line 1, under 200 chars — the only thing seen before "…see more"):
-   A pattern-interrupt — a costly mistake, a contrarian claim, a curiosity gap,
-   or a bold number. No emoji on the hook line.
+   A teacher's pattern-interrupt — a mistake you made, a myth you'll bust, or a promise of
+   what the reader will understand by the end. No emoji on the hook line.
 2. Blank line, then the counter: "Day {day_number}/30 · {{Topic Title}}".
-3. The core insight in 2-3 SHORT paragraphs, ONE idea each, blank line between them.
-   Each starts with an emoji visual-anchor.
-4. A tight 3-step framework or checklist (use 1. 2. 3. or •) — this earns SAVES.
-5. A one-line CTA question.
-6. Final line: 3-4 relevant hashtags.
+3. One line framing what you're teaching today and why it matters.
+4. The lesson in 2-3 SHORT paragraphs, ONE idea each, blank line between them.
+   Teach it plainly, like explaining to a smart peer. Each starts with an emoji anchor.
+5. A tight 3-step framework or checklist (use 1. 2. 3. or •) the reader can apply today.
+6. A one-line CTA question inviting the reader to share or ask.
+7. Final line: 3-4 relevant hashtags.
 
 STYLE
-- Tight and punchy. Every line earns its place. No fluff, no throat-clearing.
+- Warm, confident teacher voice. First person throughout. Every line earns its place.
 - Bold 2-3 key phrases with **double asterisks**. Wrap code/API names in `backticks`.
 - Total length 500-900 characters. Lots of whitespace.
 
