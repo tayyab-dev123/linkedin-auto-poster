@@ -26,9 +26,14 @@ if day_number < 1 or day_number > 30:
     exit(0)
 
 with open("topics.txt") as f:
-    topics = f.read().splitlines()
+    topics = [line for line in f.read().splitlines() if line.strip()]
 
-topic = topics[day_number - 1]
+# Each line is "Topic Title | https://official-doc-url" (URL optional).
+raw = topics[day_number - 1]
+if "|" in raw:
+    topic, doc_url = (part.strip() for part in raw.split("|", 1))
+else:
+    topic, doc_url = raw.strip(), ""
 
 URL_RE = re.compile(r"https?://\S+|www\.\S+|\S+\.(?:com|io|ai|dev|org|net)\b\S*", re.I)
 
@@ -77,31 +82,52 @@ def format_for_linkedin(text: str) -> str:
     return text
 
 
+def append_source(text: str, url: str) -> str:
+    """Insert the single 'learn more' doc link just above the trailing hashtags."""
+    if not url:
+        return text
+    lines = text.split("\n")
+    # find the last hashtag line to insert the source block above it
+    insert_at = len(lines)
+    for i in range(len(lines) - 1, -1, -1):
+        if lines[i].strip().startswith("#"):
+            insert_at = i
+            break
+    source_block = ["", f"📚 Full doc I learned from → {url}", ""]
+    lines[insert_at:insert_at] = source_block
+    return "\n".join(lines).strip()
+
+
 # ---- 1) Generate the post copy (marketing-manager style) --------------------
-SYSTEM_PROMPT = f"""You are a senior LinkedIn content manager writing for a technical audience \
-following a 30-day "learn in public" series about LangChain, LangGraph, MCP and agentic AI.
+SYSTEM_PROMPT = f"""You are a top-1% LinkedIn tech creator writing for AI engineers, \
+running a 30-day "build in public" series on LangChain, LangGraph, MCP and agentic AI.
 
-Write ONE LinkedIn post about the given topic. Follow these rules exactly:
+Write ONE LinkedIn post about the given topic. The goal is to STOP THE SCROLL instantly.
 
-STRUCTURE
-- Line 1: a scroll-stopping HOOK under 210 characters (this is all people see before "see more").
-  Use tension, a bold claim, a mistake, or a "most people get this wrong" angle. No emoji spam.
-- Line 2: the series counter formatted as "Day {day_number}/30 · {{Topic Title}}".
-- Then 4-7 short punchy lines/paragraphs, ONE idea each, separated by blank lines for whitespace.
-- Include a compact, save-worthy takeaway: a mini framework, a 3-step list, or a checklist
-  (use → or • or 1. 2. 3.). This is what earns saves.
-- End with a light one-line CTA question to invite comments.
-- Add 3-4 relevant hashtags on the final line (e.g. #LangChain #AgenticAI #MCP #LLM).
+STRUCTURE (follow exactly, in this order)
+1. HOOK (line 1, under 200 chars — the only thing seen before "…see more"):
+   Open with a pattern-interrupt. Use ONE of these proven angles:
+   - a costly mistake ("I wasted 3 weeks before I understood this.")
+   - a contrarian claim ("Everyone teaches X. They're wrong.")
+   - a curiosity gap ("This one concept separates demos from production agents.")
+   - a bold result/number. No emoji on the hook line.
+2. Blank line, then the counter: "Day {day_number}/30 · {{Topic Title}}".
+3. A 1-2 line setup that names the real problem this topic solves.
+4. The core insight: 3-6 SHORT paragraphs, ONE idea each, blank line between them.
+   Each key paragraph starts with an emoji visual-anchor.
+5. A save-worthy block: a titled mini-framework, 3-step process, or checklist
+   (use 1. 2. 3. or → or •). This is what earns SAVES and reach.
+6. A one-line takeaway starting with 💡.
+7. A single CTA question to spark comments.
+8. Final line: 3-4 relevant hashtags (e.g. #LangChain #AgenticAI #MCP #LLM).
 
 STYLE
-- Confident, concrete, practical. No fluff, no "in today's fast-paced world".
-- Use a few emojis as visual ANCHORS at the start of key lines (not decoration).
-- Bold 3-5 key phrases by wrapping them in **double asterisks** (they get converted
-  to Unicode bold for LinkedIn). Wrap code/API names in `single backticks`.
-- Total length 1200-1800 characters.
+- Confident, concrete, practical. Speak to a builder. No fluff, no throat-clearing.
+- Bold 3-5 key phrases with **double asterisks**. Wrap code/API names in `backticks`.
+- Total length 1300-2000 characters. Lots of whitespace.
 
 HARD CONSTRAINTS
-- Do NOT include ANY URLs, links, or domain names. None.
+- Do NOT include ANY URLs, links, or domain names — a source link is appended separately.
 - Use the docs-langchain tool to verify the latest official info before writing.
 - Output ONLY the post text. No preamble, no explanation, no code fences."""
 
@@ -159,13 +185,21 @@ def generate_thumbnail() -> bytes:
     logos = logos_for_topic(topic)
     logo_lockup = ", ".join(logos)
     image_prompt = (
-        f"A clean, modern LinkedIn tech thumbnail card for a developer education series. "
-        f"Headline text reads '{topic}' and a small badge reads 'Day {day_number}/30'. "
-        f"Prominently feature recognizable logos/wordmarks for {logo_lockup}, "
-        f"arranged as a neat logo lockup relevant to this topic. "
-        f"Flat vector style, generous whitespace, subtle gradient background in indigo and teal, "
-        f"crisp legible sans-serif typography, high contrast, professional and minimal. "
-        f"No photorealism, no clutter, no watermark."
+        f"Design a premium, highly-detailed LinkedIn thumbnail card (landscape) for a "
+        f"developer education series about agentic AI.\n\n"
+        f"LAYOUT:\n"
+        f"- Top-left: a small pill badge reading 'Day {day_number}/30' and a thin 'AGENTIC AI · 30 DAYS' label.\n"
+        f"- Center-left: a bold multi-line headline reading exactly '{topic}'.\n"
+        f"- Below the headline: a one-line subtitle summarising the concept in 5-7 words.\n"
+        f"- Right third: a clean technical diagram illustrating THIS topic "
+        f"(e.g. connected nodes/edges for graphs, document→chunks→vector dots for RAG, "
+        f"agent-with-tools loop for agents, client↔server arrows for MCP). Use simple labeled icons.\n"
+        f"- Bottom strip: a tidy logo lockup with recognizable wordmarks for {logo_lockup}.\n\n"
+        f"STYLE: flat vector, crisp geometric icons, generous whitespace, a 12-column grid feel, "
+        f"subtle indigo→teal gradient background, one bright accent color for emphasis, "
+        f"bold legible sans-serif typography with clear hierarchy, high contrast, "
+        f"professional and minimal — like a polished conference slide. "
+        f"Spell all text correctly. No photorealism, no clutter, no watermark, no gibberish text."
     )
     for model in (IMAGE_MODEL, IMAGE_MODEL_FALLBACK):
         try:
@@ -223,6 +257,7 @@ token = os.environ["LINKEDIN_ACCESS_TOKEN"]
 person_urn = os.environ["LINKEDIN_PERSON_URN"]
 
 post_text = format_for_linkedin(strip_urls(asyncio.run(generate_post())))
+post_text = append_source(post_text, doc_url)
 print("Generated post:\n", post_text, "\n")
 
 try:
