@@ -1,8 +1,13 @@
 name: Daily LinkedIn Post
 
 on:
+  # Reliable daily trigger: an external scheduler (e.g. cron-job.org) fires this
+  # via the GitHub API — unlike `schedule:`, it runs within seconds, every day.
+  repository_dispatch:
+    types: [daily-post]
+  # Kept as a best-effort backup and for manual runs.
   schedule:
-    - cron: '0 9 * * *'   # 14:00 PKT (UTC+5)
+    - cron: '17 9 * * *'   # 14:17 PKT (UTC+5) — off-peak, backup only
   workflow_dispatch: {}
 
 jobs:

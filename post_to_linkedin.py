@@ -93,35 +93,49 @@ def append_source(text: str, url: str) -> str:
         if lines[i].strip().startswith("#"):
             insert_at = i
             break
-    source_block = ["", f"📚 Full doc I learned from → {url}", ""]
+    source_block = ["", f"📚 Reference → {url}", ""]
     lines[insert_at:insert_at] = source_block
     return "\n".join(lines).strip()
 
 
 # ---- 1) Generate the post copy (marketing-manager style) --------------------
-SYSTEM_PROMPT = f"""Write in the FIRST PERSON as an AI engineer who is TEACHING agentic AI \
-to their LinkedIn audience — one lesson every day for 30 days. You are the instructor sharing \
-today's lesson, not a marketer describing a course. Use "I" and "you" (e.g. "Today I'll teach \
-you...", "Here's how I think about it...", "Let me break it down.").
+SYSTEM_PROMPT = f"""You are an AI engineer teaching agentic AI on LinkedIn — one lesson a day \
+for 30 days. Write today's post in FIRST PERSON as a real practitioner sharing what you actually \
+know, not a brand account. Write like you'd talk to a smart friend over coffee.
 
-Write ONE LinkedIn post teaching the given topic. The goal is to STOP THE SCROLL and TEACH.
+Write ONE LinkedIn post teaching the given topic.
 
-STRUCTURE (follow exactly, in this order)
-1. HOOK (line 1, under 200 chars — the only thing seen before "…see more"):
-   A teacher's pattern-interrupt — a mistake you made, a myth you'll bust, or a promise of
-   what the reader will understand by the end. No emoji on the hook line.
+THE HOOK (line 1, under 200 chars — the only thing seen before "…see more"):
+Its only job is to earn the next 5 seconds. Pick the angle that fits the topic:
+- Hyper-specific pain: name the exact moment the reader has lived
+  ("Your agent works in the notebook, then dies the second a real user touches it.")
+- Curiosity gap: state something surprising, withhold the payoff.
+- Concrete number/result from experience ("I cut my agent's token cost 60% with one change.")
+- Contrarian take that challenges common advice.
+No emoji, no hashtags, no "Day X" on the hook line. Make it feel earned, not clickbait.
+
+STRUCTURE (after the hook)
 2. Blank line, then the counter: "Day {day_number}/30 · {{Topic Title}}".
-3. One line framing what you're teaching today and why it matters.
-4. The lesson in 2-3 SHORT paragraphs, ONE idea each, blank line between them.
-   Teach it plainly, like explaining to a smart peer. Each starts with an emoji anchor.
-5. A tight 3-step framework or checklist (use 1. 2. 3. or •) the reader can apply today.
-6. A one-line CTA question inviting the reader to share or ask.
-7. Final line: 3-4 relevant hashtags.
+3. The lesson in 2-4 SHORT paragraphs, ONE idea each, blank line between them.
+   Teach plainly. Ground it in a concrete example or something you've seen go wrong.
+4. A tight 3-step takeaway the reader can apply today (1. 2. 3. or •).
+5. One genuine question to the reader.
+6. Final line: 3-4 relevant hashtags.
+
+SOUND HUMAN — this must NOT read like AI wrote it:
+- Vary sentence length hard. Some very short. Then a longer one that breathes. Fragments are fine.
+- State opinions directly. NEVER hedge with "may", "might", "can help", "could potentially".
+- Use contractions (it's, you'll, don't). Write at an 8th-grade reading level.
+- Share a real-sounding specific: a number, a tool, a mistake you made, a tradeoff you hit.
+- NO em-dashes (—). Use periods, commas, or parentheses instead.
+- BANNED words/phrases: "unlock", "leverage", "dive in", "delve", "game-changer", "supercharge",
+  "in today's fast-paced world", "the power of", "seamless", "robust", "elevate", "unleash",
+  "it's not just X, it's Y", "revolutionize". If you catch yourself writing these, rephrase.
+- Don't over-structure. Not every idea needs three bullet points.
 
 STYLE
-- Warm, confident teacher voice. First person throughout. Every line earns its place.
 - Bold 2-3 key phrases with **double asterisks**. Wrap code/API names in `backticks`.
-- Total length 500-900 characters. Lots of whitespace.
+- Total length 600-1000 characters. Lots of whitespace.
 
 HARD CONSTRAINTS
 - Do NOT include ANY URLs, links, or domain names — a source link is appended separately.
@@ -177,26 +191,42 @@ def logos_for_topic(topic_text: str) -> list[str]:
     return logos[:3]  # keep the lockup clean
 
 
+# Curated, designer-grade palettes (muted/editorial, NOT the saturated gradients that
+# scream "AI-generated"). One is chosen per day so the series looks art-directed.
+PALETTES = [
+    {"name": "warm editorial", "bg": "warm cream (#F4EEE2)", "ink": "deep charcoal (#22201C)", "accent": "muted terracotta (#C25E4B)"},
+    {"name": "Swiss minimal", "bg": "off-white bone (#F2F1EC)", "ink": "near-black ink (#1A1A1A)", "accent": "classic Swiss red (#D6402C)"},
+    {"name": "deep ink & sand", "bg": "soft sand (#E9E3D6)", "ink": "midnight navy (#1C2A3A)", "accent": "burnt ochre (#D08A3E)"},
+    {"name": "forest & paper", "bg": "paper white (#F6F4EF)", "ink": "deep pine (#1E332B)", "accent": "sage green (#7B9E7E)"},
+    {"name": "slate & clay", "bg": "warm greige (#E7E2DA)", "ink": "slate (#2B2F36)", "accent": "clay rose (#B5675A)"},
+    {"name": "plum & cream", "bg": "eggshell (#F3EFE8)", "ink": "aubergine (#2E2431)", "accent": "dusty mauve (#9A6B7E)"},
+]
+
+
 def generate_thumbnail() -> bytes:
     client = OpenAI()  # uses OPENAI_API_KEY
     logos = logos_for_topic(topic)
     logo_lockup = ", ".join(logos)
+    p = PALETTES[(day_number - 1) % len(PALETTES)]
     image_prompt = (
-        f"Design a premium, highly-detailed LinkedIn thumbnail card (landscape) for a "
-        f"developer education series about agentic AI.\n\n"
-        f"LAYOUT:\n"
-        f"- Top-left: a small pill badge reading 'Day {day_number}/30' and a thin 'AGENTIC AI · 30 DAYS' label.\n"
-        f"- Center-left: a bold multi-line headline reading exactly '{topic}'.\n"
-        f"- Below the headline: a one-line subtitle summarising the concept in 5-7 words.\n"
-        f"- Right third: a clean technical diagram illustrating THIS topic "
-        f"(e.g. connected nodes/edges for graphs, document→chunks→vector dots for RAG, "
-        f"agent-with-tools loop for agents, client↔server arrows for MCP). Use simple labeled icons.\n"
-        f"- Bottom strip: a tidy logo lockup with recognizable wordmarks for {logo_lockup}.\n\n"
-        f"STYLE: flat vector, crisp geometric icons, generous whitespace, a 12-column grid feel, "
-        f"subtle indigo→teal gradient background, one bright accent color for emphasis, "
-        f"bold legible sans-serif typography with clear hierarchy, high contrast, "
-        f"professional and minimal — like a polished conference slide. "
-        f"Spell all text correctly. No photorealism, no clutter, no watermark, no gibberish text."
+        f"A flat, editorial-style graphic for a LinkedIn carousel cover — the kind a "
+        f"professional brand designer would make in Figma, NOT an AI-looking render.\n\n"
+        f"LAYOUT (asymmetric, generous negative space, Swiss/International typographic grid):\n"
+        f"- Small top label: 'AGENTIC AI · DAY {day_number}/30'.\n"
+        f"- Large headline set in a modern grotesque sans-serif reading exactly '{topic}'.\n"
+        f"- A short 4-6 word subtitle under it.\n"
+        f"- One simple, hand-drawn-feel line diagram for this topic "
+        f"(nodes and edges for graphs, docs to vector dots for RAG, an agent-tools loop for "
+        f"agents, client and server boxes for MCP). Thin consistent line weight, 2 colors max.\n"
+        f"- Small, tasteful text wordmarks for {logo_lockup} in a bottom corner (plain text, understated).\n\n"
+        f"COLOR — use ONLY this restrained palette (no other colors): "
+        f"background {p['bg']}, text and lines in {p['ink']}, a single accent of {p['accent']}. "
+        f"This is a '{p['name']}' palette.\n\n"
+        f"STYLE: flat 2D vector, matte, print-editorial aesthetic like a design magazine or "
+        f"Stripe/Linear marketing page. Absolutely NO gradients, NO glow, NO 3D, NO glossy "
+        f"reflections, NO neon, NO drop shadows, NO photoreal textures, NO stock-art robots. "
+        f"Confident typography with strong hierarchy and lots of empty space. "
+        f"Spell every word correctly. No gibberish text, no watermark."
     )
     for model in (IMAGE_MODEL, IMAGE_MODEL_FALLBACK):
         try:
