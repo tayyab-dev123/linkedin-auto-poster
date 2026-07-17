@@ -191,42 +191,73 @@ def logos_for_topic(topic_text: str) -> list[str]:
     return logos[:3]  # keep the lockup clean
 
 
-# Curated, designer-grade palettes (muted/editorial, NOT the saturated gradients that
-# scream "AI-generated"). One is chosen per day so the series looks art-directed.
-PALETTES = [
-    {"name": "warm editorial", "bg": "warm cream (#F4EEE2)", "ink": "deep charcoal (#22201C)", "accent": "muted terracotta (#C25E4B)"},
-    {"name": "Swiss minimal", "bg": "off-white bone (#F2F1EC)", "ink": "near-black ink (#1A1A1A)", "accent": "classic Swiss red (#D6402C)"},
-    {"name": "deep ink & sand", "bg": "soft sand (#E9E3D6)", "ink": "midnight navy (#1C2A3A)", "accent": "burnt ochre (#D08A3E)"},
-    {"name": "forest & paper", "bg": "paper white (#F6F4EF)", "ink": "deep pine (#1E332B)", "accent": "sage green (#7B9E7E)"},
-    {"name": "slate & clay", "bg": "warm greige (#E7E2DA)", "ink": "slate (#2B2F36)", "accent": "clay rose (#B5675A)"},
-    {"name": "plum & cream", "bg": "eggshell (#F3EFE8)", "ink": "aubergine (#2E2431)", "accent": "dusty mauve (#9A6B7E)"},
+# Topic keyword -> the specific visual/diagram that actually represents THAT concept,
+# so the thumbnail illustration matches the day's lesson (checked in order, first match wins).
+# Order matters: specific concepts first, broad framework/role keywords last, so a
+# topic like "Deploying LangGraph Apps" matches "deploy" (not the generic "langgraph").
+VISUAL_MOTIFS = [
+    ("prompt template", "a document template with highlighted {variable} placeholders being filled in"),
+    ("prompt", "a document template with highlighted {variable} placeholders being filled in"),
+    ("structured output", "a JSON schema with curly braces and typed fields snapping into place"),
+    ("mcp", "a client box and a server box exchanging tools over a labeled MCP connection"),
+    ("sql agent", "an agent turning a natural-language question into a SQL query on a database"),
+    ("evaluation", "a scorecard with checkmarks and a pass/fail grade on agent outputs"),
+    ("document loader", "a source file being loaded and split into smaller text chunks"),
+    ("splitter", "a long document being sliced into smaller overlapping text chunks"),
+    ("knowledge base", "a source file being loaded and split into smaller text chunks"),
+    ("rag", "documents split into chunks, retrieved, then fed to an LLM to answer"),
+    ("retriever", "a query pulling the most relevant document chunks from a stack"),
+    ("vector store", "a grid of dots with a query vector finding nearest neighbours"),
+    ("embedding", "words mapped as points scattered in a 2D vector space"),
+    ("streaming", "tokens flowing left-to-right out of a model as a live stream"),
+    ("conditional edge", "a decision diamond routing to different branches"),
+    ("persistence", "a checkpoint/save icon on a graph with a database cylinder"),
+    ("human-in-the-loop", "a graph pausing at a node for human approval, with a person icon"),
+    ("multi-agent", "several agent circles coordinating around a shared task, with arrows"),
+    ("workflow", "a linear pipeline of steps versus a looping agent, side by side"),
+    ("observability", "a trace/timeline waterfall of an agent's steps with spans"),
+    ("guardrail", "a shield filtering unsafe input/output around an LLM"),
+    ("security", "a shield filtering unsafe input/output around an LLM"),
+    ("deploy", "an app container being pushed to a cloud server with a rocket"),
+    ("tool calling", "an LLM box connecting via plugs to labeled function/tool boxes"),
+    ("custom tool", "a wrench/gear icon wired into a function box"),
+    ("tool", "an LLM box connecting via plugs to labeled function/tool boxes"),
+    ("conditional", "a decision diamond routing to different branches"),
+    ("node", "a state graph of connected nodes and directed edges"),
+    ("langgraph", "a state graph of connected nodes and directed edges"),
+    ("chat model", "a chat bubble exchange between a user and an LLM"),
+    ("agent", "an agent reasoning-then-acting loop calling tools and observing results"),
 ]
+
+
+def visual_motif_for_topic(topic_text: str) -> str:
+    t = topic_text.lower()
+    for keyword, motif in VISUAL_MOTIFS:
+        if keyword in t:
+            return motif
+    return "a clean conceptual icon that visually represents this exact topic"
 
 
 def generate_thumbnail() -> bytes:
     client = OpenAI()  # uses OPENAI_API_KEY
     logos = logos_for_topic(topic)
     logo_lockup = ", ".join(logos)
-    p = PALETTES[(day_number - 1) % len(PALETTES)]
+    motif = visual_motif_for_topic(topic)
     image_prompt = (
-        f"A flat, editorial-style graphic for a LinkedIn carousel cover — the kind a "
-        f"professional brand designer would make in Figma, NOT an AI-looking render.\n\n"
-        f"LAYOUT (asymmetric, generous negative space, Swiss/International typographic grid):\n"
-        f"- Small top label: 'AGENTIC AI · DAY {day_number}/30'.\n"
-        f"- Large headline set in a modern grotesque sans-serif reading exactly '{topic}'.\n"
-        f"- A short 4-6 word subtitle under it.\n"
-        f"- One simple, hand-drawn-feel line diagram for this topic "
-        f"(nodes and edges for graphs, docs to vector dots for RAG, an agent-tools loop for "
-        f"agents, client and server boxes for MCP). Thin consistent line weight, 2 colors max.\n"
-        f"- Small, tasteful text wordmarks for {logo_lockup} in a bottom corner (plain text, understated).\n\n"
-        f"COLOR — use ONLY this restrained palette (no other colors): "
-        f"background {p['bg']}, text and lines in {p['ink']}, a single accent of {p['accent']}. "
-        f"This is a '{p['name']}' palette.\n\n"
-        f"STYLE: flat 2D vector, matte, print-editorial aesthetic like a design magazine or "
-        f"Stripe/Linear marketing page. Absolutely NO gradients, NO glow, NO 3D, NO glossy "
-        f"reflections, NO neon, NO drop shadows, NO photoreal textures, NO stock-art robots. "
-        f"Confident typography with strong hierarchy and lots of empty space. "
-        f"Spell every word correctly. No gibberish text, no watermark."
+        f"Design a premium, highly-detailed LinkedIn thumbnail card (landscape) for a "
+        f"developer education series about agentic AI.\n\n"
+        f"LAYOUT:\n"
+        f"- Top-left: a small pill badge reading 'Day {day_number}/30' and a thin 'AGENTIC AI · 30 DAYS' label.\n"
+        f"- Center-left: a bold multi-line headline reading exactly '{topic}'.\n"
+        f"- Below the headline: a one-line subtitle summarising the concept in 5-7 words.\n"
+        f"- Right third: a clean technical diagram that specifically illustrates THIS topic — "
+        f"draw {motif}. Do NOT draw any other concept. Use simple labeled icons.\n"
+        f"- Bottom strip: a tidy logo lockup with recognizable wordmarks for {logo_lockup}.\n\n"
+        f"STYLE: flat vector, crisp geometric icons, generous whitespace, a 12-column grid feel, "
+        f"subtle indigo→teal gradient background, one bright accent color for emphasis, "
+        f"bold legible sans-serif typography with clear hierarchy, high contrast, "
+        f"professional and minimal — like a polished conference slide. "
+        f"Spell all text correctly. No photorealism, no clutter, no watermark, no gibberish text."
     )
     for model in (IMAGE_MODEL, IMAGE_MODEL_FALLBACK):
         try:
