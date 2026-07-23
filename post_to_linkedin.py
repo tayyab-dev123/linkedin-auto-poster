@@ -1,5 +1,6 @@
 import os
 import re
+import json
 import base64
 import asyncio
 from datetime import date
@@ -34,6 +35,48 @@ if "|" in raw:
     topic, doc_url = (part.strip() for part in raw.split("|", 1))
 else:
     topic, doc_url = raw.strip(), ""
+
+# ---- Post history: never repeat a hook or hook-pattern across the 30 days ----
+HISTORY_FILE = "post_history.json"
+
+# Rotated so every day gets a different opening PATTERN. Described abstractly on
+# purpose — no verbatim example sentences the model could copy word-for-word.
+HOOK_ANGLES = [
+    "Hyper-specific pain: name the exact frustrating moment the reader has lived through with THIS topic.",
+    "Curiosity gap: state something surprising or counterintuitive about this topic, then withhold the payoff.",
+    "Concrete result: open with a specific number/outcome you got applying this (cost, latency, time, LOC).",
+    "Contrarian take: challenge a common piece of advice or popular belief about this topic.",
+    "Costly mistake: open with a specific mistake you made with this topic and what it cost you.",
+    "Myth-bust: call out a widespread misconception about this topic and correct it.",
+    "Before/after: contrast the wrong way you first did this vs the right way you do it now.",
+    "Sharp question: ask a pointed question the reader secretly can't answer well.",
+    "Bold one-liner: a punchy, quotable sentence that reframes how to think about this topic.",
+    "Tiny story: open mid-scene in a real moment (a failing demo, a 2am debug) tied to this topic.",
+]
+
+# Openings that have been overused already — hard-banned regardless of history.
+BANNED_HOOKS_SEED = [
+    "Your agent works in the notebook",
+    "works in the notebook, then dies",
+]
+
+
+def load_history() -> list:
+    try:
+        with open(HISTORY_FILE) as f:
+            return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return []
+
+
+def save_history(history: list) -> None:
+    with open(HISTORY_FILE, "w") as f:
+        json.dump(history, f, indent=2, ensure_ascii=False)
+
+
+history = load_history()
+todays_angle = HOOK_ANGLES[(day_number - 1) % len(HOOK_ANGLES)]
+banned_hooks = BANNED_HOOKS_SEED + [h.get("hook", "") for h in history if h.get("hook")]
 
 URL_RE = re.compile(r"https?://\S+|www\.\S+|\S+\.(?:com|io|ai|dev|org|net)\b\S*", re.I)
 
@@ -99,21 +142,27 @@ def append_source(text: str, url: str) -> str:
 
 
 # ---- 1) Generate the post copy (marketing-manager style) --------------------
-SYSTEM_PROMPT = f"""You are an AI engineer teaching agentic AI on LinkedIn — one lesson a day \
+def build_system_prompt(angle: str, banned: list) -> str:
+    banned_block = ""
+    if banned:
+        recent = "\n".join(f'- "{h}"' for h in banned[-20:])
+        banned_block = (
+            "\nNEVER REUSE OR PARAPHRASE these openings I have already posted — "
+            "the reader sees these back-to-back and repetition kills trust:\n"
+            f"{recent}\n"
+        )
+    return f"""You are an AI engineer teaching agentic AI on LinkedIn — one lesson a day \
 for 30 days. Write today's post in FIRST PERSON as a real practitioner sharing what you actually \
 know, not a brand account. Write like you'd talk to a smart friend over coffee.
 
 Write ONE LinkedIn post teaching the given topic.
 
 THE HOOK (line 1, under 200 chars — the only thing seen before "…see more"):
-Its only job is to earn the next 5 seconds. Pick the angle that fits the topic:
-- Hyper-specific pain: name the exact moment the reader has lived
-  ("Your agent works in the notebook, then dies the second a real user touches it.")
-- Curiosity gap: state something surprising, withhold the payoff.
-- Concrete number/result from experience ("I cut my agent's token cost 60% with one change.")
-- Contrarian take that challenges common advice.
+Its only job is to earn the next 5 seconds.
+TODAY'S REQUIRED HOOK ANGLE: {angle}
+Write a FRESH hook in that angle, specific to TODAY'S exact topic. Do not force a template.
 No emoji, no hashtags, no "Day X" on the hook line. Make it feel earned, not clickbait.
-
+{banned_block}
 STRUCTURE (after the hook)
 2. Blank line, then the counter: "Day {day_number}/30 · {{Topic Title}}".
 3. The lesson in 2-4 SHORT paragraphs, ONE idea each, blank line between them.
@@ -139,7 +188,7 @@ STYLE
 
 HARD CONSTRAINTS
 - Do NOT include ANY URLs, links, or domain names — a source link is appended separately.
-- Use the docs-langchain tool to verify the latest official info before writing.
+- If a docs tool is available, use it to verify the latest official info before writing.
 - Output ONLY the post text. No preamble, no explanation, no code fences."""
 
 
@@ -151,12 +200,13 @@ async def generate_post():
         }
     })
     tools = await mcp_client.get_tools()
-    llm = ChatOpenAI(model=TEXT_MODEL, temperature=0.5)
-    agent = create_agent(llm, tools, system_prompt=SYSTEM_PROMPT)
+    # Higher temperature for genuine variety in phrasing day-to-day.
+    llm = ChatOpenAI(model=TEXT_MODEL, temperature=0.85)
+    agent = create_agent(llm, tools, system_prompt=build_system_prompt(todays_angle, banned_hooks))
 
     result = await agent.ainvoke({
         "messages": [
-            ("user", f"Day {day_number} topic: {topic}"),
+            ("user", f"Day {day_number} topic: {topic}. Today's hook angle: {todays_angle}"),
         ]
     })
     return result["messages"][-1].content.strip()
@@ -170,6 +220,11 @@ LOGO_KEYWORDS = [
     ("mcp", "MCP (Model Context Protocol)"),
     ("model context protocol", "MCP (Model Context Protocol)"),
     ("fastapi", "FastAPI"),
+    ("vllm", "vLLM"),
+    ("kv cache", "PyTorch"),
+    ("quantization", "Hugging Face"),
+    ("batching", "vLLM"),
+    ("mlops", "MLflow"),
     ("rag", "a vector database / retrieval icon"),
     ("vector", "a vector database / retrieval icon"),
     ("embedding", "a vector database / retrieval icon"),
@@ -199,6 +254,12 @@ VISUAL_MOTIFS = [
     ("prompt template", "a document template with highlighted {variable} placeholders being filled in"),
     ("prompt", "a document template with highlighted {variable} placeholders being filled in"),
     ("structured output", "a JSON schema with curly braces and typed fields snapping into place"),
+    ("kv cache", "a transformer reusing cached key/value tensors so each new token skips recomputation"),
+    ("quantization", "a large FP16 model block compressed into a much smaller INT8/INT4 block"),
+    ("continuous batching", "many incoming requests packed into GPU batches as slots free up"),
+    ("batching", "many incoming requests packed into GPU batches as slots free up"),
+    ("vllm", "a GPU server streaming many parallel requests at high throughput with a PagedAttention grid"),
+    ("mlops", "a CI/CD loop: version, deploy, monitor, then retrain the model"),
     ("mcp", "a client box and a server box exchanging tools over a labeled MCP connection"),
     ("sql agent", "an agent turning a natural-language question into a SQL query on a database"),
     ("evaluation", "a scorecard with checkmarks and a pass/fail grade on agent outputs"),
@@ -315,6 +376,13 @@ token = os.environ["LINKEDIN_ACCESS_TOKEN"]
 person_urn = os.environ["LINKEDIN_PERSON_URN"]
 
 post_text = format_for_linkedin(strip_urls(asyncio.run(generate_post())))
+
+# Record this post's hook (first non-empty line) so future days never repeat it.
+hook_line = next((ln.strip() for ln in post_text.split("\n") if ln.strip()), "")
+history = [h for h in history if h.get("day") != day_number]  # idempotent on re-runs
+history.append({"day": day_number, "topic": topic, "angle": todays_angle, "hook": hook_line})
+save_history(history)
+
 post_text = append_source(post_text, doc_url)
 print("Generated post:\n", post_text, "\n")
 

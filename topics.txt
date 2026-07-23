@@ -9,22 +9,22 @@ RAG Fundamentals: Retrieval-Augmented Generation | https://docs.langchain.com/os
 Document Loaders, Splitters & Knowledge Bases | https://docs.langchain.com/oss/python/langchain/knowledge-base
 Embeddings Explained | https://docs.langchain.com/oss/python/integrations/embeddings
 Vector Stores & Similarity Search | https://docs.langchain.com/oss/python/integrations/vectorstores
-Retrievers for Better Precision | https://docs.langchain.com/oss/python/integrations/retrievers
 Agentic RAG: Let the Agent Decide When to Retrieve | https://docs.langchain.com/oss/python/langgraph/agentic-rag
-SQL Agent: Query Structured Knowledge | https://docs.langchain.com/oss/python/langchain/sql-agent
 Intro to LangGraph & StateGraph | https://docs.langchain.com/oss/python/langgraph/overview
-Nodes, Edges & Shared State | https://docs.langchain.com/oss/python/langgraph/graph-api
 Conditional Edges & Routing | https://docs.langchain.com/oss/python/langgraph/use-graph-api
 Persistence & Checkpoints | https://docs.langchain.com/oss/python/langgraph/persistence
 Human-in-the-Loop Workflows | https://docs.langchain.com/oss/python/langchain/human-in-the-loop
-Workflows & Agents in LangGraph | https://docs.langchain.com/oss/python/langgraph/workflows-agents
 Multi-Agent Orchestration | https://docs.langchain.com/oss/python/langchain/multi-agent
 MCP (Model Context Protocol) Basics | https://docs.langchain.com/oss/python/langchain/mcp
-MCP Quickstart with langchain-mcp-adapters | https://docs.langchain.com/oss/python/langchain/mcp#quickstart
 Connecting MCP Tools to Agents | https://docs.langchain.com/oss/python/deepagents/code/mcp-tools
 Agent Evaluation with LangSmith | https://docs.langchain.com/langsmith/evaluate-complex-agent
 RAG Evaluation with LangSmith | https://docs.langchain.com/langsmith/evaluate-rag-tutorial
 Observability with LangSmith | https://docs.langchain.com/oss/python/langchain/observability
 Guardrails & Agent Security | https://docs.langchain.com/oss/python/langchain/guardrails
+KV Cache: Why LLM Inference Speeds Up After the First Token | https://huggingface.co/docs/transformers/en/kv_cache
+Quantization: Shrinking LLMs for Cheaper Inference | https://huggingface.co/docs/transformers/en/quantization/overview
+Continuous Batching: Higher GPU Throughput | https://docs.vllm.ai/en/latest/
+vLLM: High-Throughput LLM Serving | https://docs.vllm.ai/en/latest/
+MLOps for LLM Apps: CI/CD, Versioning & Monitoring | https://ml-ops.org/content/mlops-principles
 Deploying LangGraph Apps to Production | https://docs.langchain.com/oss/python/langgraph/deploy
 30-Day Recap: The Production Agent Checklist | https://docs.langchain.com/oss/python/langchain/overview
