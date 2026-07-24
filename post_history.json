@@ -4,5 +4,11 @@
     "topic": "RAG Fundamentals: Retrieval-Augmented Generation",
     "angle": "Sharp question: ask a pointed question the reader secretly can't answer well.",
     "hook": "Why settle for a chatbot that just pulls canned responses?"
+  },
+  {
+    "day": 9,
+    "topic": "Document Loaders, Splitters & Knowledge Bases",
+    "angle": "Bold one-liner: a punchy, quotable sentence that reframes how to think about this topic.",
+    "hook": "Its only job is to earn the next 5 seconds."
   }
 ]
