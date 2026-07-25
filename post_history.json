@@ -10,5 +10,11 @@
     "topic": "Document Loaders, Splitters & Knowledge Bases",
     "angle": "Bold one-liner: a punchy, quotable sentence that reframes how to think about this topic.",
     "hook": "Its only job is to earn the next 5 seconds."
+  },
+  {
+    "day": 10,
+    "topic": "Embeddings Explained",
+    "angle": "Tiny story: open mid-scene in a real moment (a failing demo, a 2am debug) tied to this topic.",
+    "hook": "\"You really couldn’t pick a worse moment,\" I muttered at my screen, as a demo for a potential client was crashing spectacularly. It was 2am, coffee in hand. The culprit? A misunderstanding of embeddings."
   }
 ]
