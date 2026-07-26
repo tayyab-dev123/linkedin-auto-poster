@@ -16,5 +16,11 @@
     "topic": "Embeddings Explained",
     "angle": "Tiny story: open mid-scene in a real moment (a failing demo, a 2am debug) tied to this topic.",
     "hook": "\"You really couldn’t pick a worse moment,\" I muttered at my screen, as a demo for a potential client was crashing spectacularly. It was 2am, coffee in hand. The culprit? A misunderstanding of embeddings."
+  },
+  {
+    "day": 11,
+    "topic": "Vector Stores & Similarity Search",
+    "angle": "Hyper-specific pain: name the exact frustrating moment the reader has lived through with THIS topic.",
+    "hook": "It's 3 am, and you're tearing your hair out because your AI model can't seem to find the right documents despite having them all indexed. Everything feels like chaos."
   }
 ]
