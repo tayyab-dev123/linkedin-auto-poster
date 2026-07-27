@@ -22,5 +22,11 @@
     "topic": "Vector Stores & Similarity Search",
     "angle": "Hyper-specific pain: name the exact frustrating moment the reader has lived through with THIS topic.",
     "hook": "It's 3 am, and you're tearing your hair out because your AI model can't seem to find the right documents despite having them all indexed. Everything feels like chaos."
+  },
+  {
+    "day": 12,
+    "topic": "Agentic RAG: Let the Agent Decide When to Retrieve",
+    "angle": "Curiosity gap: state something surprising or counterintuitive about this topic, then withhold the payoff.",
+    "hook": "Only 10% of RAGs make the most of agentic retrieval. What's the secret?"
   }
 ]
