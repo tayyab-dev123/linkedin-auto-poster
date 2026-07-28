@@ -28,5 +28,11 @@
     "topic": "Agentic RAG: Let the Agent Decide When to Retrieve",
     "angle": "Curiosity gap: state something surprising or counterintuitive about this topic, then withhold the payoff.",
     "hook": "Only 10% of RAGs make the most of agentic retrieval. What's the secret?"
+  },
+  {
+    "day": 13,
+    "topic": "Intro to LangGraph & StateGraph",
+    "angle": "Concrete result: open with a specific number/outcome you got applying this (cost, latency, time, LOC).",
+    "hook": "In just 200 lines of code, I created a dynamic conversational agent using LangGraph and StateGraph."
   }
 ]
