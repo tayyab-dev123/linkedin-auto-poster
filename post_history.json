@@ -34,5 +34,11 @@
     "topic": "Intro to LangGraph & StateGraph",
     "angle": "Concrete result: open with a specific number/outcome you got applying this (cost, latency, time, LOC).",
     "hook": "In just 200 lines of code, I created a dynamic conversational agent using LangGraph and StateGraph."
+  },
+  {
+    "day": 14,
+    "topic": "Conditional Edges & Routing",
+    "angle": "Contrarian take: challenge a common piece of advice or popular belief about this topic.",
+    "hook": "AI decision trees are often said to thrive on simplicity. But let's challenge that."
   }
 ]
