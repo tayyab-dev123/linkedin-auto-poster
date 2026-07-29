@@ -9,7 +9,6 @@ import requests
 from openai import OpenAI
 from langchain.agents import create_agent
 from langchain_openai import ChatOpenAI
-from langchain_mcp_adapters.client import MultiServerMCPClient
 
 # ---- Config -----------------------------------------------------------------
 DAY_ONE = date(2026, 7, 16)  # set this to your actual Day 1 date
@@ -202,14 +201,25 @@ HARD CONSTRAINTS
 - Output ONLY the post text. No preamble, no explanation, no code fences."""
 
 
+async def load_docs_tools():
+    """The LangChain docs MCP is optional. It must never crash the post: dependency
+    version skew or a server outage should degrade to generating without it."""
+    try:
+        from langchain_mcp_adapters.client import MultiServerMCPClient
+        mcp_client = MultiServerMCPClient({
+            "docs-langchain": {
+                "url": "https://docs.langchain.com/mcp",
+                "transport": "streamable_http",
+            }
+        })
+        return await mcp_client.get_tools()
+    except Exception as e:
+        print(f"Docs MCP unavailable ({e}); writing without the docs tool.")
+        return []
+
+
 async def generate_post():
-    mcp_client = MultiServerMCPClient({
-        "docs-langchain": {
-            "url": "https://docs.langchain.com/mcp",
-            "transport": "streamable_http",
-        }
-    })
-    tools = await mcp_client.get_tools()
+    tools = await load_docs_tools()
     # Higher temperature for genuine variety in phrasing day-to-day.
     llm = ChatOpenAI(model=TEXT_MODEL, temperature=0.85)
     agent = create_agent(llm, tools, system_prompt=build_system_prompt(todays_angle, banned_hooks))
