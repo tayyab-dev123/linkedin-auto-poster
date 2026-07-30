@@ -40,5 +40,11 @@
     "topic": "Conditional Edges & Routing",
     "angle": "Contrarian take: challenge a common piece of advice or popular belief about this topic.",
     "hook": "AI decision trees are often said to thrive on simplicity. But let's challenge that."
+  },
+  {
+    "day": 15,
+    "topic": "Persistence & Checkpoints",
+    "angle": "Costly mistake: open with a specific mistake you made with this topic and what it cost you.",
+    "hook": "\"Five hours of work gone,\" I sighed, staring at a blank screen. My AI agent's progress hadn't saved. I learned the hard way about the importance of persistence and checkpoints."
   }
 ]
