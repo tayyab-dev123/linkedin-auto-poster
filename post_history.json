@@ -46,5 +46,11 @@
     "topic": "Persistence & Checkpoints",
     "angle": "Costly mistake: open with a specific mistake you made with this topic and what it cost you.",
     "hook": "\"Five hours of work gone,\" I sighed, staring at a blank screen. My AI agent's progress hadn't saved. I learned the hard way about the importance of persistence and checkpoints."
+  },
+  {
+    "day": 16,
+    "topic": "Human-in-the-Loop Workflows",
+    "angle": "Myth-bust: call out a widespread misconception about this topic and correct it.",
+    "hook": "\"Human-in-the-loop workflows mean slower processes.\" That's a misinterpretation I've heard too often."
   }
 ]
