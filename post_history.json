@@ -52,5 +52,11 @@
     "topic": "Human-in-the-Loop Workflows",
     "angle": "Myth-bust: call out a widespread misconception about this topic and correct it.",
     "hook": "\"Human-in-the-loop workflows mean slower processes.\" That's a misinterpretation I've heard too often."
+  },
+  {
+    "day": 17,
+    "topic": "Multi-Agent Orchestration",
+    "angle": "Before/after: contrast the wrong way you first did this vs the right way you do it now.",
+    "hook": "\"I thought connecting multiple agents was like linking Lego blocks. But my first attempt was more like juggling marshmallows.\""
   }
 ]
