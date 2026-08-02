@@ -58,5 +58,11 @@
     "topic": "Multi-Agent Orchestration",
     "angle": "Before/after: contrast the wrong way you first did this vs the right way you do it now.",
     "hook": "\"I thought connecting multiple agents was like linking Lego blocks. But my first attempt was more like juggling marshmallows.\""
+  },
+  {
+    "day": 18,
+    "topic": "MCP (Model Context Protocol) Basics",
+    "angle": "Sharp question: ask a pointed question the reader secretly can't answer well.",
+    "hook": "How many times have you tried explaining MCP to a colleague and ended up with blank stares?"
   }
 ]
