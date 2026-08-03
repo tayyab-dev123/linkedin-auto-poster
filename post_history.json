@@ -64,5 +64,11 @@
     "topic": "MCP (Model Context Protocol) Basics",
     "angle": "Sharp question: ask a pointed question the reader secretly can't answer well.",
     "hook": "How many times have you tried explaining MCP to a colleague and ended up with blank stares?"
+  },
+  {
+    "day": 19,
+    "topic": "Connecting MCP Tools to Agents",
+    "angle": "Bold one-liner: a punchy, quotable sentence that reframes how to think about this topic.",
+    "hook": "Agents aren't just operators, they're orchestrators when linked with the right tools."
   }
 ]
