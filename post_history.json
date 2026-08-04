@@ -70,5 +70,11 @@
     "topic": "Connecting MCP Tools to Agents",
     "angle": "Bold one-liner: a punchy, quotable sentence that reframes how to think about this topic.",
     "hook": "Agents aren't just operators, they're orchestrators when linked with the right tools."
+  },
+  {
+    "day": 20,
+    "topic": "Agent Evaluation with LangSmith",
+    "angle": "Tiny story: open mid-scene in a real moment (a failing demo, a 2am debug) tied to this topic.",
+    "hook": "\"It was 1:30 AM, and the demo was minutes away. My agent was stuck in a loop, and I was scrambling to figure out why LangSmith wasn't catching it.\""
   }
 ]
