@@ -76,5 +76,11 @@
     "topic": "Agent Evaluation with LangSmith",
     "angle": "Tiny story: open mid-scene in a real moment (a failing demo, a 2am debug) tied to this topic.",
     "hook": "\"It was 1:30 AM, and the demo was minutes away. My agent was stuck in a loop, and I was scrambling to figure out why LangSmith wasn't catching it.\""
+  },
+  {
+    "day": 21,
+    "topic": "RAG Evaluation with LangSmith",
+    "angle": "Hyper-specific pain: name the exact frustrating moment the reader has lived through with THIS topic.",
+    "hook": "\"Another false negative?! My AI retrieval system was supposed to highlight the relevant articles, not make me sift through a sea of irrelevant information. The culprit? Poor RAG evaluation.\""
   }
 ]
