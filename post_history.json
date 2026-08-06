@@ -82,5 +82,11 @@
     "topic": "RAG Evaluation with LangSmith",
     "angle": "Hyper-specific pain: name the exact frustrating moment the reader has lived through with THIS topic.",
     "hook": "\"Another false negative?! My AI retrieval system was supposed to highlight the relevant articles, not make me sift through a sea of irrelevant information. The culprit? Poor RAG evaluation.\""
+  },
+  {
+    "day": 22,
+    "topic": "Observability with LangSmith",
+    "angle": "Curiosity gap: state something surprising or counterintuitive about this topic, then withhold the payoff.",
+    "hook": "LangSmith does more than just visualize data streams."
   }
 ]
