@@ -88,5 +88,11 @@
     "topic": "Observability with LangSmith",
     "angle": "Curiosity gap: state something surprising or counterintuitive about this topic, then withhold the payoff.",
     "hook": "LangSmith does more than just visualize data streams."
+  },
+  {
+    "day": 23,
+    "topic": "Guardrails & Agent Security",
+    "angle": "Concrete result: open with a specific number/outcome you got applying this (cost, latency, time, LOC).",
+    "hook": "I reduced our AI-related incident reports by 60% in three months."
   }
 ]
