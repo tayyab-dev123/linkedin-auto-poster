@@ -94,5 +94,11 @@
     "topic": "Guardrails & Agent Security",
     "angle": "Concrete result: open with a specific number/outcome you got applying this (cost, latency, time, LOC).",
     "hook": "I reduced our AI-related incident reports by 60% in three months."
+  },
+  {
+    "day": 24,
+    "topic": "KV Cache: Why LLM Inference Speeds Up After the First Token",
+    "angle": "Contrarian take: challenge a common piece of advice or popular belief about this topic.",
+    "hook": "\"KV Cache? Just a fancy speed gimmick?\" If that's what you've been told, let's revisit this notion."
   }
 ]
