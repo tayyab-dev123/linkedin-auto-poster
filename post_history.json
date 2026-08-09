@@ -100,5 +100,11 @@
     "topic": "KV Cache: Why LLM Inference Speeds Up After the First Token",
     "angle": "Contrarian take: challenge a common piece of advice or popular belief about this topic.",
     "hook": "\"KV Cache? Just a fancy speed gimmick?\" If that's what you've been told, let's revisit this notion."
+  },
+  {
+    "day": 25,
+    "topic": "Quantization: Shrinking LLMs for Cheaper Inference",
+    "angle": "Costly mistake: open with a specific mistake you made with this topic and what it cost you.",
+    "hook": "\"24 hours of server time down the drain,\" I groaned, staring at an error-filled log. Quantizing a language model without fully understanding the precision requirements had led to performance issues that ate up valuable resources."
   }
 ]
