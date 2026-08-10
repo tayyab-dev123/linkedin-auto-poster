@@ -106,5 +106,11 @@
     "topic": "Quantization: Shrinking LLMs for Cheaper Inference",
     "angle": "Costly mistake: open with a specific mistake you made with this topic and what it cost you.",
     "hook": "\"24 hours of server time down the drain,\" I groaned, staring at an error-filled log. Quantizing a language model without fully understanding the precision requirements had led to performance issues that ate up valuable resources."
+  },
+  {
+    "day": 26,
+    "topic": "Continuous Batching: Higher GPU Throughput",
+    "angle": "Myth-bust: call out a widespread misconception about this topic and correct it.",
+    "hook": "\"Batch processing is only for big datasets.\" If that's what you've heard, let's set the record straight."
   }
 ]
