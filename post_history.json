@@ -112,5 +112,11 @@
     "topic": "Continuous Batching: Higher GPU Throughput",
     "angle": "Myth-bust: call out a widespread misconception about this topic and correct it.",
     "hook": "\"Batch processing is only for big datasets.\" If that's what you've heard, let's set the record straight."
+  },
+  {
+    "day": 27,
+    "topic": "vLLM: High-Throughput LLM Serving",
+    "angle": "Before/after: contrast the wrong way you first did this vs the right way you do it now.",
+    "hook": "\"12 seconds for a single response? That's what happened the first time I deployed a large language model without vLLM.\""
   }
 ]
