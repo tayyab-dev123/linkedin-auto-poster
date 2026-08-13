@@ -124,5 +124,11 @@
     "topic": "MLOps for LLM Apps: CI/CD, Versioning & Monitoring",
     "angle": "Sharp question: ask a pointed question the reader secretly can't answer well.",
     "hook": "How often do you check if your LLM deployment pipelines are silently failing?"
+  },
+  {
+    "day": 29,
+    "topic": "Deploying LangGraph Apps to Production",
+    "angle": "Bold one-liner: a punchy, quotable sentence that reframes how to think about this topic.",
+    "hook": "\"Your LangGraph app isn't truly alive until it's battling real-world traffic.\""
   }
 ]
