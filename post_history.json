@@ -130,5 +130,11 @@
     "topic": "Deploying LangGraph Apps to Production",
     "angle": "Bold one-liner: a punchy, quotable sentence that reframes how to think about this topic.",
     "hook": "\"Your LangGraph app isn't truly alive until it's battling real-world traffic.\""
+  },
+  {
+    "day": 30,
+    "topic": "30-Day Recap: The Production Agent Checklist",
+    "angle": "Tiny story: open mid-scene in a real moment (a failing demo, a 2am debug) tied to this topic.",
+    "hook": "\"3:45 AM and the air was thick with tension. The client demo had crashed, and I was knee-deep in log files, wishing I had a checklist to prevent this chaos.\""
   }
 ]
